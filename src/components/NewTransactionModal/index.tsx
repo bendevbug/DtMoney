@@ -5,7 +5,8 @@ import { RadioBox } from './style';
 import closeImg from '../../assets/close.svg'
 import incomeImg from '../../assets/income.svg'
 import outcomeImg from '../../assets/outcome.svg'
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
+import { api } from '../../services/api';
 
 
 interface NewTransactionModalProps {
@@ -14,8 +15,23 @@ interface NewTransactionModalProps {
   }
 
 export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
-
+    const [title, setTitle] = useState('');
+    const [value, setValue] = useState(0);
+    const [category, setCategory] = useState('');
     const [type, setType] = useState('deposit')
+
+    function handleCreateNewTransaction(event: FormEvent) {
+        event.preventDefault();
+
+       const data = {
+          title,
+          value,
+          category,
+          type
+        };
+
+        api.post('/transactions', data)
+    }
 
     return(
         <Modal 
@@ -31,11 +47,19 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
           <img src={closeImg} alt="Fechar modal"/>
         </button>
 
-        <Container>
+        <Container onSubmit={handleCreateNewTransaction}>
           <h2>Cadastrar transação</h2>
 
-          <input placeholder="Título"/>
-          <input placeholder="Valor" type="number"/>
+          <input placeholder="Título" 
+          value={title} 
+          onChange={event => setTitle(event.target.value)}
+          />
+
+          <input placeholder="Valor" 
+          type="number" 
+          value={value}
+          onChange={event => setValue(Number(event.target.value))}
+          />
 
           <TransactionTypeContainer>
 
@@ -59,7 +83,10 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
 
           </TransactionTypeContainer>
 
-          <input placeholder="Categoria"/>
+          <input placeholder="Categoria"
+          value={category} 
+          onChange={event => setCategory(event.target.value)}
+          />
 
           <button type="submit">
             Cadastrar
