@@ -17,27 +17,11 @@ createServer({
         {
           id: 1,
           title: 'Freelancer de website',
-          tiype: 'deposit',
+          type: 'deposit',
           category: 'dev',
           amount: 6000,
           createdAt: new Date('2022-08-01 09:00:00')
         },
-        {
-          id: 2,
-          title: 'Freelancer de website',
-          tiype: 'deposit',
-          category: 'dev',
-          amount: 450,
-          createdAt: new Date('2022-04-01 09:00:00')
-        },
-        {
-          id: 3,
-          title: 'Poupança',
-          tiype: 'deposit',
-          category: 'banco',
-          amount: 1000,
-          createdAt: new Date('2021-08-01 09:00:00')
-        }
       ],
     })
   },
